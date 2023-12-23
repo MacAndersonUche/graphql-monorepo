@@ -1,22 +1,38 @@
 type User {
   id: String!
   email: String!
-  name: String
+  # name: String
   posts: [Post]
-  comments: [Comment]
+  # comments: [Comment]
 }
 
 type Post {
   id: String!
   title: String
-  content: String
+  # content: String
   author: User
-  comments: [Comment]
+  # comments: [Comment]
 }
 
-type Comment {
-  id: String!
-  content: String
-  author: User
-  post: Post
+# type Comment {
+#   id: String!
+#   content: String!
+#   author: User
+#   post: Post
+# }
+
+type Query {
+  users: [User]
+  # user(id: String): User!
+  # posts: [Post]
+  # post(id: String): Post!
+  # comments: [Comment]
+  # comment(id: String): Comment!
 }
+
+# type Mutation {
+#   # addUser(email: String): User
+#   # addComment(email: String): User
+#   # addUser(email: String): User
+#   # addUser(email: String): User
+# }
