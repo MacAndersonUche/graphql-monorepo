@@ -1,0 +1,4 @@
+{
+  "files": [],
+  "references": [{ "path": "packages/aws" }, { "path": "packages/nodejs" }]
+}

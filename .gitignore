@@ -1,0 +1,9 @@
+node_modules/
+dist
+# typescript artifacts
+*.tsbuildinfo
+
+# Env
+.env
+# Local Netlify folder
+.netlify
