@@ -73,7 +73,6 @@ export const resolvers = {
       return allComments.filter((comment) => comment.userId === parent.id);
     },
   },
-
   Post: {
     async author(parent, _: any, { dataSources }: { dataSources: DataSource }) {
       return await dataSources.getUser({
@@ -87,6 +86,18 @@ export const resolvers = {
     ) {
       const allComments = await dataSources.getComments();
       return allComments.filter((comment) => comment.postId === parent.id);
+    },
+  },
+  Comment: {
+    async author(parent, _: any, { dataSources }: { dataSources: DataSource }) {
+      return await dataSources.getUser({
+        id: parent.userId,
+      });
+    },
+    async post(parent, _: any, { dataSources }: { dataSources: DataSource }) {
+      return await dataSources.getPost({
+        id: parent.postId,
+      });
     },
   },
 };

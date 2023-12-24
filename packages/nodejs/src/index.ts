@@ -1,14 +1,21 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import { resolvers } from './resolvers';
 import { readFileSync } from 'fs';
-import { DataSource, prisma } from './dataSources/client';
+import { DataSource } from './dataSources/client';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { QueriesResolver } from './resolvers/queries';
+import { MutationResolvers } from './resolvers/mutation';
+import { OtherResolvers } from './resolvers/others';
 
 const typeDefs = readFileSync('./schema.graphql', { encoding: 'utf-8' });
 
-const server = new ApolloServer({
+export const schema = makeExecutableSchema({
   typeDefs,
-  resolvers,
+  resolvers: [QueriesResolver, MutationResolvers, OtherResolvers],
+});
+
+const server = new ApolloServer({
+  schema,
 });
 
 const { url } = await startStandaloneServer(server, {
