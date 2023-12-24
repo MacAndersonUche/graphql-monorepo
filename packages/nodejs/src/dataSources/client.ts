@@ -35,6 +35,12 @@ export class DataSource {
       },
     });
   }
+  async updateUser({ id, email }: { id: string; email: string }) {
+    return await prisma.user.update({
+      where: { id },
+      data: { email },
+    });
+  }
   async addUser({ email }) {
     return await prisma.user.create({
       data: {
@@ -46,7 +52,6 @@ export class DataSource {
   async addPost({
     title,
     authorId,
-    content = 'Default Content',
   }: {
     title: string;
     authorId: string;
@@ -57,9 +62,37 @@ export class DataSource {
         id: randomUUID(),
         title,
         authorId,
-        content,
+        content: 'Default Content',
       },
     });
+  }
+  async updatePost({ id, title }: { id: string; title: string }) {
+    return await prisma.post.update({
+      where: { id },
+      data: { title },
+    });
+  }
+  async deletePost({ id }: { id: string }) {
+    const commentIds = (await prisma.comment.findMany())
+      .map((com) => com.id)
+      .filter((res) => res === id);
+    if (commentIds.length > 0) {
+      for await (let comment of commentIds) {
+        await prisma.comment.deleteMany({
+          where: { id: comment },
+        });
+      }
+
+      await prisma.comment.deleteMany({
+        where: { id },
+      });
+    }
+
+    await prisma.post.delete({
+      where: { id },
+    });
+
+    return await prisma.post.findMany();
   }
   async addComment({
     postId,
@@ -78,5 +111,18 @@ export class DataSource {
         userId,
       },
     });
+  }
+  async updateComment({ id, content }: { id: string; content: string }) {
+    return await prisma.comment.update({
+      where: { id },
+      data: { content },
+    });
+  }
+  async deleteComment({ id }: { id: string }) {
+    await prisma.comment.delete({
+      where: { id },
+    });
+
+    return await prisma.comment.findMany();
   }
 }

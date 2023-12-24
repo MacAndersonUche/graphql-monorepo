@@ -9,19 +9,52 @@ export const MutationResolvers = {
     ) {
       return await dataSources.addUser({ email });
     },
-    async addPost(
+    async updateUser(
       _: any,
-      { title, authorId },
+      { id, email },
       { dataSources }: { dataSources: DataSource }
     ) {
+      return await dataSources.updateUser({ email, id });
+    },
+    async addPost(_: any, arg, { dataSources }: { dataSources: DataSource }) {
+      const { title, authorId } = arg.input;
       return await dataSources.addPost({ title, authorId });
+    },
+    async updatePost(
+      _: any,
+      { title, id },
+      { dataSources }: { dataSources: DataSource }
+    ) {
+      return await dataSources.updatePost({ title, id });
+    },
+    async deletePost(
+      _: any,
+      { id },
+      { dataSources }: { dataSources: DataSource }
+    ) {
+      return await dataSources.deletePost({ id });
     },
     async addComment(
       _: any,
-      { postId, content, userId },
+      arg,
       { dataSources }: { dataSources: DataSource }
     ) {
+      const { postId, content, userId } = arg.input;
       return await dataSources.addComment({ postId, content, userId });
+    },
+    async updateComment(
+      _: any,
+      { content, id },
+      { dataSources }: { dataSources: DataSource }
+    ) {
+      return await dataSources.updateComment({ content, id });
+    },
+    async deleteComment(
+      _: any,
+      { id },
+      { dataSources }: { dataSources: DataSource }
+    ) {
+      return await dataSources.deleteComment({ id });
     },
   },
 };

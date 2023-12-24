@@ -30,8 +30,24 @@ type Query {
   comment(id: String): Comment!
 }
 
+input AddPostInput {
+  title: String!
+  authorId: String
+}
+
+input AddCommentInput {
+  content: String!
+  userId: String!
+  postId: String!
+}
+
 type Mutation {
   addUser(email: String): User
-  addPost(title: String!, authorId: String): Post
-  addComment(content: String!, userId: String!, postId: String!): User
+  addPost(input: AddPostInput): Post
+  addComment(input: AddCommentInput): Comment
+  updateUser(id: String!, email: String!): User
+  updatePost(id: String!, title: String!): Post
+  updateComment(id: String!, content: String!): Comment
+  deleteComment(id: String!): [Comment]
+  deletePost(id: String!): [Post]
 }
