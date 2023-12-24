@@ -8,7 +8,7 @@ export class DataSource {
     return await prisma.user.findMany();
   }
   async getUser({ id }) {
-    return await prisma.user.findUnique({
+    return await prisma.user.findUniqueOrThrow({
       where: {
         id,
       },
@@ -35,7 +35,7 @@ export class DataSource {
     });
   }
   async getPost({ id }) {
-    return await prisma.post.findUnique({
+    return await prisma.post.findUniqueOrThrow({
       where: {
         id,
       },
