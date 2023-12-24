@@ -26,13 +26,12 @@ type Query {
   user(id: String!): User
   posts: [Post]
   post(id: String!): Post!
-  # comments: [Comment]
-  # comment(id: String): Comment!
+  comments: [Comment]
+  comment(id: String): Comment!
 }
 
 type Mutation {
   addUser(email: String): User
   addPost(title: String!, authorId: String): Post
-  # addComment(email: String): User
-  # addUser(email: String): User
+  addComment(content: String!, userId: String!, postId: String!): User
 }

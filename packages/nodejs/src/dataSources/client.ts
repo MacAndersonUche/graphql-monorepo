@@ -4,6 +4,27 @@ import { randomUUID } from 'crypto';
 export const prisma = new PrismaClient();
 
 export class DataSource {
+  client = prisma;
+  async getComments() {
+    return await prisma.comment.findMany();
+  }
+  async getComment({ id }) {
+    return await prisma.comment.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    });
+  }
+  async getPosts() {
+    return await prisma.post.findMany();
+  }
+  async getPost({ id }) {
+    return await prisma.post.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    });
+  }
   async getUsers() {
     return await prisma.user.findMany();
   }
@@ -22,22 +43,39 @@ export class DataSource {
       },
     });
   }
-  async getPosts() {
-    return await prisma.post.findMany();
-  }
-  async addPost({ title, authorId }) {
+  async addPost({
+    title,
+    authorId,
+    content = 'Default Content',
+  }: {
+    title: string;
+    authorId: string;
+    content?: string;
+  }) {
     return await prisma.post.create({
       data: {
         id: randomUUID(),
         title,
         authorId,
+        content,
       },
     });
   }
-  async getPost({ id }) {
-    return await prisma.post.findUniqueOrThrow({
-      where: {
-        id,
+  async addComment({
+    postId,
+    content,
+    userId,
+  }: {
+    postId: string;
+    userId: string;
+    content: string;
+  }) {
+    return await prisma.comment.create({
+      data: {
+        id: randomUUID(),
+        postId,
+        content,
+        userId,
       },
     });
   }
