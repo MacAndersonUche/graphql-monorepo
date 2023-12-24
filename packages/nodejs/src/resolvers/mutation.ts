@@ -34,6 +34,13 @@ export const MutationResolvers = {
     ) {
       return await dataSources.deletePost({ id });
     },
+    async deleteUser(
+      _: any,
+      { id },
+      { dataSources }: { dataSources: DataSource }
+    ) {
+      return await dataSources.deleteUser({ id });
+    },
     async addComment(
       _: any,
       arg,

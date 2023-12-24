@@ -50,4 +50,5 @@ type Mutation {
   updateComment(id: String!, content: String!): Comment
   deleteComment(id: String!): [Comment]
   deletePost(id: String!): [Post]
+  deleteUser(id: String!): [User]
 }

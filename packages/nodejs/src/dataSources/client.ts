@@ -41,6 +41,21 @@ export class DataSource {
       data: { email },
     });
   }
+  async deleteUser({ id }: { id: string }) {
+    await prisma.comment.deleteMany({
+      where: { userId: id },
+    });
+
+    await prisma.post.deleteMany({
+      where: { authorId: id },
+    });
+
+    await prisma.user.delete({
+      where: { id },
+    });
+
+    return await prisma.user.findMany();
+  }
   async addUser({ email }) {
     return await prisma.user.create({
       data: {
@@ -73,20 +88,9 @@ export class DataSource {
     });
   }
   async deletePost({ id }: { id: string }) {
-    const commentIds = (await prisma.comment.findMany())
-      .map((com) => com.id)
-      .filter((res) => res === id);
-    if (commentIds.length > 0) {
-      for await (let comment of commentIds) {
-        await prisma.comment.deleteMany({
-          where: { id: comment },
-        });
-      }
-
-      await prisma.comment.deleteMany({
-        where: { id },
-      });
-    }
+    await prisma.comment.deleteMany({
+      where: { postId: id },
+    });
 
     await prisma.post.delete({
       where: { id },
