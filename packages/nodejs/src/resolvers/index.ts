@@ -1,12 +1,21 @@
-// Resolvers define how to fetch the types defined in your schema.
-// This resolver retrieves books from the "books" array above.
 export const resolvers = {
   Query: {
-    // user(parent, args, contextValue, info) {
-    //   return users.find((user) => user.id === args.id);
-    // },
-    async users(_: any, __: any, { dataSources }) {
-      return await dataSources.api.users.findMany();
+    async user(_: any, { id }, { dataSources }: any) {
+      return await dataSources.getUser({
+        id,
+      });
+    },
+
+    async users(_: any, __: any, { dataSources }: any) {
+      return await dataSources.getUsers();
+    },
+  },
+  Mutation: {
+    async addUser(_: any, { email }, { dataSources }: any) {
+      return await dataSources.addUser({ email });
+    },
+    async addPost(_: any, { title, authorId }, { dataSources }: any) {
+      return await dataSources.addPost({ title, authorId });
     },
   },
 };

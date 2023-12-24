@@ -8,7 +8,7 @@ type User {
 
 type Post {
   id: String!
-  title: String
+  title: String!
   # content: String
   author: User
   # comments: [Comment]
@@ -23,16 +23,16 @@ type Post {
 
 type Query {
   users: [User]
-  # user(id: String): User!
+  user(id: String!): User
   # posts: [Post]
-  # post(id: String): Post!
+  post(id: String!): Post!
   # comments: [Comment]
   # comment(id: String): Comment!
 }
 
-# type Mutation {
-#   # addUser(email: String): User
-#   # addComment(email: String): User
-#   # addUser(email: String): User
-#   # addUser(email: String): User
-# }
+type Mutation {
+  addUser(email: String): User
+  addPost(title: String!, authorId: String): Post
+  # addComment(email: String): User
+  # addUser(email: String): User
+}
